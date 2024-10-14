@@ -1,28 +1,18 @@
-import e, { NextFunction, Request, Response } from "express";
 
-const app = e();
+import express from 'express';
+import { homePage } from './lib/homePage.js';
+import { notFoundResponse } from './middleware/notFoundResponse.js';
+import { fatalServerErrorResponse } from './middleware/fatalServerErrorResponse.js';
+import { notFoundPage } from './lib/notFoundPage.js';
+
+const app = express();
 const port = 5123;
 
-app.use(e.json({
-    type: 'application/json',
-}));
-app.use(e.urlencoded({
-    extended: true,
-}))
-
-function homePage(req: Request, res: Response) {
-    return res.send('HOMEPAGE');
-}
 app.get('/', homePage as any);
+app.get('*', notFoundPage as any);
 
-app.use((_req: Request, res: Response, _next: NextFunction) => {
-    res.status(404).send("Sorry can't find that!");
-});
-
-app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-    console.error(err.stack)
-    res.status(500).send('Something broke!');
-});
+app.use(notFoundResponse as any);
+app.use(fatalServerErrorResponse as any);
 
 app.listen(port, () => {
     console.log('SERVER: http://localhost:' + port);
