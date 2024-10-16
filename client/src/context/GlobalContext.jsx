@@ -5,14 +5,13 @@ import { createContext, useEffect, useState } from "react";
 export const initialContext = {
     role: 'public',
     isLoggedIn: false,
-    login: () => {},
-    logout: () => {}
+    login: () => { },
+    logout: () => { },
 };
 
 export const GlobalContext = createContext(initialContext);
 
 export function ContextWrapper(props) {
-
     const [role, setRole] = useState(initialContext.role);
     const [isLoggedIn, setIsLoggedIn] = useState(initialContext.isLoggedIn);
 
@@ -21,6 +20,7 @@ export function ContextWrapper(props) {
         setIsLoggedIn(() => false);
         setRole(() => 'public');
     }, []);
+
 
     function login() {
         setIsLoggedIn(() => true);
@@ -34,7 +34,7 @@ export function ContextWrapper(props) {
         role,
         isLoggedIn,
         login,
-        logout
+        logout,
     };
 
     return (
