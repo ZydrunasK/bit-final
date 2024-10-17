@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { Footer } from "../components/Footer";
-import { Header } from "../components/Header";
+import { Footer } from "../components/Footer.jsx";
+import { Header } from "../components//header/Header.jsx";
 import { Outlet } from 'react-router-dom';
-import { GlobalContext } from "../context/GlobalContext";
-import { LoginForm } from "../components/LoginForm";
+import { GlobalContext } from "../context/GlobalContext.jsx";
+import { LoginForm } from "../components/LoginForm.jsx";
 
 export function UserLayout() {
     const { isLoggedIn } = useContext(GlobalContext);
