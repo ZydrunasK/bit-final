@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { GlobalContext } from '../../context/GlobalContext';
+import { GlobalContext } from '../../context/GlobalContext.jsx';
 import { UserHeader } from './UserHeader.jsx';
 import { PublicHeader } from './PublicHeader.jsx';
 import { AdminHeader } from './AdminHeader.jsx';
