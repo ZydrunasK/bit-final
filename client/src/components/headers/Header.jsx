@@ -10,7 +10,7 @@ export function Header() {
     return (
         <div className="container">
                 {!isLoggedIn && <PublicHeader />}
-                {isLoggedIn && role === 'user'&& <UserHeader />}
+                {isLoggedIn && role === 'user' && <UserHeader />}
                 {isLoggedIn && role === 'admin' && <AdminHeader />}
         </div>
     )
