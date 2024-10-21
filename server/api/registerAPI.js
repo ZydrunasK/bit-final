@@ -1,6 +1,7 @@
 import { IsValid } from '../lib/IsValid.js';
+import {connection} from '../db.js';
 
-export function registerPostAPI(req, res) {
+export async function registerPostAPI(req, res) {
     const requiredFields = [
         {
             field: 'email',
@@ -30,6 +31,12 @@ export function registerPostAPI(req, res) {
             });
         }
     }
+
+    const sql = 'SELECT * FROM users;';
+    const selectResult = await connection.execute(sql);
+
+    console.log(selectResult[0]);
+    
 
     return res.json({
         status: 'success',
