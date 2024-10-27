@@ -43,7 +43,8 @@ export async function loginPostAPI(req, res) {
         });
     }
 
-    const token = randomString();
+    // TODO: paimti is env.js
+    const token = randomString(+process.env.COOKIE_SIZE);
 
     try {
         const sql = 'INSERT INTO tokens (user_id, token) VALUES (?, ?);';
@@ -71,7 +72,7 @@ export async function loginPostAPI(req, res) {
         'max-age=' + maxAge,
         'SameSite=Lax',
         // 'Secure',
-        // 'HttpOnly',
+        'HttpOnly',
     ];
 
     return res
@@ -80,9 +81,39 @@ export async function loginPostAPI(req, res) {
         .json({
             status: 'success',
             msg: 'Ok',
+            role: 'user',
+            email: user.email,
+            registeredAt: user.registered_at,
         });
 }
 
 export async function loginGetAPI(req, res) {
-    console.log(req.cookie);
+    if (!req.cookie.loginToken) {
+        return res.json({
+            status: 'error',
+            isLoggedIn: false,
+            role: 'public',
+        });
+    }
+
+    console.log(process.env.COOKIE_SIZE);
+
+
+    // TODO: paimti is env.js
+    if (typeof req.cookie.loginToken !== 'string'
+        || req.cookie.loginToken.length !== +process.env.COOKIE_SIZE) {
+        return res.json({
+            status: 'error',
+            isLoggedIn: false,
+            role: 'public',
+        });
+    }
+
+    return res.json({
+        status: 'success',
+        isLoggedIn: true,
+        role: 'user',
+        email: '',
+        registeredAt: '',
+    });
 }

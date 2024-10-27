@@ -1,4 +1,3 @@
-
 import { RegistrationForm } from '../components/RegistrationForm';
 
 export function Home() {
