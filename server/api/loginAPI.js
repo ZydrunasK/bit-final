@@ -1,6 +1,8 @@
 import { IsValid } from '../lib/IsValid.js';
 import { connection } from '../db.js';
 import { randomString } from '../lib/randomString.js';
+import { COOKIE_SIZE } from './env.js';
+
 
 export async function loginPostAPI(req, res) {
     const requiredFields = [

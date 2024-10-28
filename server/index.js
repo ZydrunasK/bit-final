@@ -1,5 +1,4 @@
 import express from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import { homePage } from './lib/homePage.js';
 import { notFoundResponse } from './middleware/notFoundResponse.js';
