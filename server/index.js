@@ -9,8 +9,6 @@ import { loginGetAPI, loginPostAPI } from './api/loginAPI.js';
 import { cookieParser } from './middleware/cookieParser.js';
 import { logoutGetAPI } from './api/logoutAPI.js';
 
-dotenv.config();
-
 const app = express();
 const port = 5114;
 
