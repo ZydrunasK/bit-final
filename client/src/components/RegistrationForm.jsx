@@ -36,7 +36,9 @@ export function RegistrationForm() {
             credentials: 'include',
             body: JSON.stringify({ email, password }),
         })
-            .then(res => res.json())
+            .then(res => {
+                
+                res.json()})
             .then(data => {
                 if (data.status === 'success') {
                     setAlertMessage(() => 'Registracija sėkminga. Prisijunkite.');

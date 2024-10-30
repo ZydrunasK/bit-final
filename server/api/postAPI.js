@@ -1,10 +1,11 @@
-import { IsValid } from '../lib/IsValid.js';
 import { connection } from '../db.js';
+import { IsValid } from '../lib/IsValid.js';
 
-export async function registerPostAPI(req, res) {
+export async function postPostAPI(req, res) {
+    // 1) pagal cookie susirasti vartotojo ID
+
     const requiredFields = [
-        { field: 'email', validation: IsValid.email },
-        { field: 'password', validation: IsValid.password },
+        { field: 'text', validation: IsValid.postMessage },
     ];
 
     const [isErr, errMessage] = IsValid.requiredFields(req.body, requiredFields);
@@ -15,32 +16,12 @@ export async function registerPostAPI(req, res) {
         });
     }
 
-    const { email, password } = req.body;
+    // 4) irasyti post'a i DB
 
-    try {
-        const sql = `INSERT INTO users (email, password) VALUES (?, ?);`;
-        const insertResult = await connection.execute(sql, [email, password]);
-
-        if (insertResult[0].affectedRows !== 1) {
-            return res.status(500).json({
-                status: 'error',
-                msg: 'Nepavyko sukurti paskyros',
-            });
-        }
-    } catch (error) {
-        const errCodes = {
-            ER_DUP_ENTRY: 'Toks email jau panaudotas',
-        };
-        const msg = errCodes[error.code] ?? 'Registracija nepavyko del serverio klaidos. Pabandykite veliau';
-
-        return res.status(errCodes[error.code] ? 400 : 500).json({
-            status: 'error',
-            msg,
+    return res
+        .status(201)
+        .json({
+            status: 'success',
+            msg: 'Ok',
         });
-    }
-
-    return res.status(201).json({
-        status: 'success',
-        msg: 'Ok',
-    });
 }
