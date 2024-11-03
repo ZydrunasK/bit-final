@@ -1,10 +1,11 @@
+
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from "react";
 
 export const initialUserContext = {
     role: 'public',
-    isLoggedIn: false,
+    isLoggedIn: null,
     email: '',
     registeredAt: '',
     login: () => { },
@@ -40,7 +41,7 @@ export function UserContextWrapper(props) {
     }
 
     function logout() {
-        setIsLoggedIn(() => initialUserContext.isLoggedIn);
+        setIsLoggedIn(() => false);
         setRole(() => initialUserContext.role);
         setEmail(() => initialUserContext.email);
         setRegisteredAt(() => initialUserContext.registeredAt);
