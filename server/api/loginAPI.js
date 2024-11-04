@@ -18,12 +18,13 @@ export async function loginPostAPI(req, res) {
     }
 
     const { email, password } = req.body;
+    
     let user = null;
 
     try {
         const sql = `SELECT * FROM users WHERE email = ? AND password = ?;`;
         const selectResult = await connection.execute(sql, [email, password]);
-
+        
         if (selectResult[0].length !== 1) {
             return res.status(400).json({
                 status: 'error',
@@ -83,6 +84,7 @@ export async function loginPostAPI(req, res) {
             status: 'success',
             msg: 'Ok',
             role: 'user',
+            id: user.id,
             email: user.email,
             registeredAt: user.registered_at,
         });
@@ -129,14 +131,13 @@ export async function loginGetAPI(req, res) {
 
     try {
         const sql = `
-            SELECT token, email, registered_at, created_at
+            SELECT user_id, token, email, registered_at, created_at
             FROM tokens
             INNER JOIN users
                 ON users.id = tokens.user_id
             WHERE token = ?;`;
         const selectResult = await connection.execute(sql, [loginToken]);
-        console.log(selectResult);
-        
+
         if (selectResult[0].length === 0) {
             return res.status(400).json({
                 status: 'error',
@@ -192,6 +193,7 @@ export async function loginGetAPI(req, res) {
         status: 'success',
         isLoggedIn: true,
         role: 'user',
+        id: tokenObj.user_id,
         email: tokenObj.email,
         registeredAt: tokenObj.registered_at,
     });

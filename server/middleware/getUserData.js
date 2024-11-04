@@ -2,6 +2,7 @@ import { connection } from "../db.js";
 import { COOKIE_ALLOWED_SYMBOLS, COOKIE_MAX_AGE, COOKIE_SIZE } from "../env.js";
 
 export async function getUserData(req, res, next) {
+    
     req.user = {
         isLoggedIn: false,
         role: 'public',
@@ -9,30 +10,32 @@ export async function getUserData(req, res, next) {
         id: -1,
         registeredAt: -1,
     };
-
+    
     const { loginToken } = req.cookie;
-
+    
     if (typeof loginToken !== 'string'
         || loginToken.length !== COOKIE_SIZE
     ) {
         return next();
     }
-
+    
     for (const s of loginToken) {
         if (!COOKIE_ALLOWED_SYMBOLS.includes(s)) {
             return next();
         }
     }
-
+    
     let tokenObj = null;
-
+    
     try {
+
         const sql = `
-            SELECT user_id, token, email, registered_at, created_at
-            FROM tokens
-            INNER JOIN users
-                ON users.id = tokens.user_id
-            WHERE token = ?;`;
+        SELECT user_id, token, email, registered_at, created_at
+        FROM tokens
+        INNER JOIN users
+        ON users.id = tokens.user_id
+        WHERE token = ?;`;
+        
         const selectResult = await connection.execute(sql, [loginToken]);
 
         if (selectResult[0].length === 0) {
@@ -75,6 +78,7 @@ export async function getUserData(req, res, next) {
         });
     }
 
+    
     req.user = {
         isLoggedIn: true,
         role: 'user',
@@ -82,5 +86,6 @@ export async function getUserData(req, res, next) {
         email: tokenObj.email,
         registeredAt: tokenObj.registered_at,
     };
+    
     next();
 }

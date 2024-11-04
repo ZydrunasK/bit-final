@@ -42,7 +42,9 @@ app.get('/api/login', loginGetAPI);
 app.get('/api/logout', logoutGetAPI);
 app.post('/api/post', postPostAPI);
 app.get('/api/post', postGetAPI);
-app.get('/api/post/new/:id', postGetAPI);
+app.get('/api/post/initial', postGetAPI);
+app.get('/api/post/new/:newerId', postGetAPI);
+app.get('/api/post/old/:olderId', postGetAPI);
 // app.put('/api/post', authorizedAccessOnly, postPutAPI);
 // app.delete('/api/post', authorizedAccessOnly, postDeleteAPI);
 
