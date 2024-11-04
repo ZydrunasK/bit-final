@@ -28,7 +28,7 @@ export function FeedForm() {
             })
             .catch(console.error);
     }
-
+    
     return (
         <div className="col-md-10 mx-auto col-lg-6 col-xl-5">
             <form onSubmit={handleFormSubmit} className={style.form}>

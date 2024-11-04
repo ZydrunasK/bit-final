@@ -6,7 +6,7 @@ import { Post } from "../components/posts/Post";
 export function Feed() {
     const { posts } = useContext(PostsContext);
     const empty = <div className="alert alert-warning">Šiuo metu nėra jokio turinio. Būk pirmas ir parašyk tokią žinutę!</div>;
-
+    
     return (
         <main>
             <div className="container px-4">
