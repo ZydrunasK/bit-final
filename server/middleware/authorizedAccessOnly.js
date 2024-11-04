@@ -1,6 +1,4 @@
 export function authorizedAccessOnly(req, res, next) {
-    console.log(req.user);
-    
     if (!req.user.isLoggedIn) {
         return res.json({
             status: 'error',
