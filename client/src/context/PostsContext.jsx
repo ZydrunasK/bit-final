@@ -1,4 +1,3 @@
-
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 import { createContext, useContext, useEffect, useState } from "react";
@@ -74,15 +73,15 @@ export function PostsContextWrapper(props) {
     }
 
     function loadOlderPosts(lastPostId) {
-        fetch('http://localhost:5114/api/post', {
-            method: 'GET',
-            credentials: 'include',
-        })
-            .then(res => res.json())
-            .then(data => {
-                setPosts(pre => [...pre, ...data.posts]);
-            })
-            .catch(console.error);
+        // fetch('http://localhost:5114/api/post', {
+        //     method: 'GET',
+        //     credentials: 'include',
+        // })
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         setPosts(pre => [...pre, ...data.posts]);
+        //     })
+        //     .catch(console.error);
     }
 
     function addMyPost() {

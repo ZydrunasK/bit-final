@@ -5,7 +5,7 @@ export async function postPostAPI(req, res) {
     const requiredFields = [
         { field: 'text', validation: IsValid.postMessage },
     ];
-
+    
     const [isErr, errMessage] = IsValid.requiredFields(req.body, requiredFields);
     if (isErr) {
         return res.status(400).json({

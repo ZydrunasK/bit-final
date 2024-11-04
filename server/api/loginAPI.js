@@ -8,7 +8,8 @@ export async function loginPostAPI(req, res) {
         { field: 'email', validation: IsValid.email },
         { field: 'password', validation: IsValid.password },
     ];
-
+    
+    console.log('hihi');
     const [isErr, errMessage] = IsValid.requiredFields(req.body, requiredFields);
     if (isErr) {
         return res.status(400).json({
@@ -112,7 +113,7 @@ export async function loginGetAPI(req, res) {
         });
     }
 
-    // 3) ar loginToken is leisinu simboliu
+    // 3) ar loginToken is leistinu simboliu
     for (const s of loginToken) {
         if (!COOKIE_ALLOWED_SYMBOLS.includes(s)) {
             return res.status(400).json({
@@ -187,6 +188,7 @@ export async function loginGetAPI(req, res) {
     }
 
     // 5) ar loginToken vis dar galiojantis
+    
     return res.status(200).json({
         status: 'success',
         isLoggedIn: true,

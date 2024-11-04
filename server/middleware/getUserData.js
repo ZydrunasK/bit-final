@@ -2,6 +2,8 @@ import { connection } from "../db.js";
 import { COOKIE_ALLOWED_SYMBOLS, COOKIE_MAX_AGE, COOKIE_SIZE } from "../env.js";
 
 export async function getUserData(req, res, next) {
+    console.log('userdata working ere');
+    
     req.user = {
         isLoggedIn: false,
         role: 'public',
@@ -9,9 +11,12 @@ export async function getUserData(req, res, next) {
         id: -1,
         registeredAt: -1,
     };
+    console.log(req.cookie);
+
 
     const { loginToken } = req.cookie;
-
+    console.log([loginToken]);
+    
     if (typeof loginToken !== 'string'
         || loginToken.length !== COOKIE_SIZE
     ) {
@@ -23,26 +28,29 @@ export async function getUserData(req, res, next) {
             return next();
         }
     }
-
+    
     let tokenObj = null;
-
+    
     try {
         const sql = `
-            SELECT user_id, token, email, registered_at, created_at
-            FROM tokens
-            INNER JOIN users
-                ON users.id = tokens.user_id
-            WHERE token = ?;`;
+        SELECT user_id, token, email, registered_at, created_at
+        FROM tokens
+        INNER JOIN users
+        ON users.id = tokens.user_id
+        WHERE token = ?;`;
         const selectResult = await connection.execute(sql, [loginToken]);
 
+        console.log(selectResult[0]);
+        
         if (selectResult[0].length === 0) {
             return next();
         }
-
+        
         if (selectResult[0].length > 1) {
             return next();
         }
 
+        
         tokenObj = selectResult[0][0];
 
         if (tokenObj.created_at.getTime() + COOKIE_MAX_AGE * 1000 < Date.now()) {
@@ -74,7 +82,7 @@ export async function getUserData(req, res, next) {
             role: 'public',
         });
     }
-
+    
     req.user = {
         isLoggedIn: true,
         role: 'user',
@@ -82,5 +90,6 @@ export async function getUserData(req, res, next) {
         email: tokenObj.email,
         registeredAt: tokenObj.registered_at,
     };
+    
     next();
 }
