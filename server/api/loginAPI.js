@@ -135,7 +135,8 @@ export async function loginGetAPI(req, res) {
                 ON users.id = tokens.user_id
             WHERE token = ?;`;
         const selectResult = await connection.execute(sql, [loginToken]);
-
+        console.log(selectResult);
+        
         if (selectResult[0].length === 0) {
             return res.status(400).json({
                 status: 'error',

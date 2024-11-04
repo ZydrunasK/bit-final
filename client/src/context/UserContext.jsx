@@ -20,6 +20,8 @@ export function UserContextWrapper(props) {
     const [registeredAt, setRegisteredAt] = useState(initialUserContext.registeredAt);
 
     useEffect(() => {
+        console.log('as veikiu');
+        
         fetch('http://localhost:5114/api/login', {
             method: 'GET',
             credentials: 'include',

@@ -38,11 +38,11 @@ app.post('/api/register', notLoggedInAccessOnly, registerPostAPI);
 app.post('/api/login', notLoggedInAccessOnly, loginPostAPI);
 
 // REIKIA ZINOTI KAS TU
-app.get('/api/login', authorizedAccessOnly, loginGetAPI);
-app.get('/api/logout', authorizedAccessOnly, logoutGetAPI);
-app.post('/api/post', authorizedAccessOnly, postPostAPI);
-app.get('/api/post', authorizedAccessOnly, postGetAPI);
-app.get('/api/post/new/:id', authorizedAccessOnly, postGetAPI);
+app.get('/api/login', loginGetAPI);
+app.get('/api/logout', logoutGetAPI);
+app.post('/api/post', postPostAPI);
+app.get('/api/post', postGetAPI);
+app.get('/api/post/new/:id', postGetAPI);
 // app.put('/api/post', authorizedAccessOnly, postPutAPI);
 // app.delete('/api/post', authorizedAccessOnly, postDeleteAPI);
 

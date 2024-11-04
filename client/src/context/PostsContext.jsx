@@ -29,6 +29,7 @@ export function PostsContextWrapper(props) {
         if (isLoggedIn === true) {
             async function load() {
                 const data = await loadInitialPosts();
+                
                 setPosts(() => [...data]);
             }
             load();
@@ -59,6 +60,8 @@ export function PostsContextWrapper(props) {
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data);
+                
                 return data.posts;
             })
             .catch(err => {

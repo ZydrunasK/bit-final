@@ -7,7 +7,7 @@ try {
         host: 'localhost',
         user: 'root',
         password: '',
-        database: '51gr_bit-final',
+        database: '51gr_bitfinal',
     });
 } catch (error) {
     console.log(error);
