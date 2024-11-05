@@ -61,7 +61,6 @@ export function PostsContextWrapper(props) {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                
                 return data.posts;
             })
             .catch(err => {
