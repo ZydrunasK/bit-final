@@ -8,7 +8,7 @@ export function FeedForm() {
         e.preventDefault();
 
         const minSize = 1;
-        const maxSize = 420;
+        const maxSize = 1337;
 
         if (text.length < minSize || text.length > maxSize) {
             return;
@@ -28,7 +28,7 @@ export function FeedForm() {
             })
             .catch(console.error);
     }
-    
+
     return (
         <div className="col-md-10 mx-auto col-lg-6 col-xl-5">
             <form onSubmit={handleFormSubmit} className={style.form}>

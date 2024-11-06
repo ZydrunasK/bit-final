@@ -1,5 +1,5 @@
 export function formatTime(postTime) {
-    const msDif = Date.now() - (new Date(postTime));
+    const msDif = Date.now() - (new Date(postTime)).getTime();
     const minDif = Math.floor(msDif / (1000 * 60)); 
     const hourDif = Math.floor((msDif / (1000 * 60 * 60)));
 
