@@ -6,15 +6,16 @@ import { UserContext } from '../../context/UserContext';
 import { formatTime } from '../../lib/formatTime';
 
 export function Post({ post }) {
-    const textDisplayMaxSize = 200;
+    const softCutLimit = 200;
+    const hardCutLimit = softCutLimit + 50;
 
     const { userId } = useContext(UserContext);
-    const [postTextFullSize, setPostTextFullSize] = useState(post.text.length < (textDisplayMaxSize + 25));
+    const [postTextFullSize, setPostTextFullSize] = useState(post.text.length < hardCutLimit);
 
-    const text = post.text.slice(0, textDisplayMaxSize).trim()
-        + (post.text.length >= textDisplayMaxSize ? '... ' : '');
+    const text = post.text.slice(0, softCutLimit).trim()
+        + (post.text.length >= softCutLimit ? '... ' : '');
 
-    const textExpandSpan = post.text.length < (textDisplayMaxSize + 25) ? '' : <span onClick={() => setPostTextFullSize(pre => !pre)}
+    const textExpandSpan = post.text.length < hardCutLimit ? '' : <span onClick={() => setPostTextFullSize(pre => !pre)}
     className={style.more}>Skaityti {postTextFullSize ? 'mažiau' : 'daugiau'}</span>
 
     return (
