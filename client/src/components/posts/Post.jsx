@@ -10,12 +10,11 @@ export function Post({ post }) {
 
     const { userId } = useContext(UserContext);
     const [postTextFullSize, setPostTextFullSize] = useState(post.text.length < (textDisplayMaxSize + 25));
-    const canItFit = post.text.length < (textDisplayMaxSize + 25);
 
     const text = post.text.slice(0, textDisplayMaxSize).trim()
         + (post.text.length >= textDisplayMaxSize ? '... ' : '');
 
-    const textExpandSpan = <span onClick={() => setPostTextFullSize(pre => !pre)}
+    const textExpandSpan = post.text.length < (textDisplayMaxSize + 25) ? '' : <span onClick={() => setPostTextFullSize(pre => !pre)}
     className={style.more}>Skaityti {postTextFullSize ? 'mažiau' : 'daugiau'}</span>
 
     return (
@@ -31,7 +30,7 @@ export function Post({ post }) {
             <div className={style.content}>
                 <p className={post.text.length < 100 ? style.bigText :  style.text}>
                     {postTextFullSize ? post.text : text}
-                    {canItFit ? '' : textExpandSpan}
+                    {textExpandSpan}
                 </p>
             </div>
             <div className={style.interactions}>
