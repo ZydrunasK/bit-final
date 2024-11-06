@@ -29,7 +29,7 @@ export function Post({ post }) {
                 <i className={style.moreActions + ' fa fa-ellipsis-h'}></i>
             </header>
             <div className={style.content}>
-                <p className={post.text.length < 100 ? style.bigText : ''}>
+                <p className={post.text.length < 100 ? style.bigText :  style.text}>
                     {postTextFullSize ? post.text : text}
                     {canItFit ? '' : textExpandSpan}
                 </p>
