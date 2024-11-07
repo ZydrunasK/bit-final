@@ -18,13 +18,12 @@ export async function loginPostAPI(req, res) {
     }
 
     const { email, password } = req.body;
-    
     let user = null;
 
     try {
         const sql = `SELECT * FROM users WHERE email = ? AND password = ?;`;
         const selectResult = await connection.execute(sql, [email, password]);
-        
+
         if (selectResult[0].length !== 1) {
             return res.status(400).json({
                 status: 'error',
@@ -85,7 +84,9 @@ export async function loginPostAPI(req, res) {
             msg: 'Ok',
             role: 'user',
             id: user.id,
+            username: user.username,
             email: user.email,
+            profileImage: user.profile_image,
             registeredAt: user.registered_at,
         });
 }
@@ -131,7 +132,7 @@ export async function loginGetAPI(req, res) {
 
     try {
         const sql = `
-            SELECT user_id, token, email, registered_at, created_at
+            SELECT user_id, username, token, email, profile_image, registered_at, created_at
             FROM tokens
             INNER JOIN users
                 ON users.id = tokens.user_id
@@ -194,7 +195,9 @@ export async function loginGetAPI(req, res) {
         isLoggedIn: true,
         role: 'user',
         id: tokenObj.user_id,
+        username: tokenObj.username,
         email: tokenObj.email,
+        profileImage: tokenObj.profile_image,
         registeredAt: tokenObj.registered_at,
     });
 }
