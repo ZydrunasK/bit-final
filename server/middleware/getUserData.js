@@ -1,41 +1,39 @@
 import { connection } from "../db.js";
 import { COOKIE_ALLOWED_SYMBOLS, COOKIE_MAX_AGE, COOKIE_SIZE } from "../env.js";
+import { API_RESPONSE_STATUS, ROLE } from "../lib/enum.js";
 
 export async function getUserData(req, res, next) {
-    
     req.user = {
         isLoggedIn: false,
-        role: 'public',
+        role: ROLE.PUBLIC,
         email: '',
         id: -1,
         registeredAt: -1,
     };
-    
+
     const { loginToken } = req.cookie;
-    
+
     if (typeof loginToken !== 'string'
         || loginToken.length !== COOKIE_SIZE
     ) {
         return next();
     }
-    
+
     for (const s of loginToken) {
         if (!COOKIE_ALLOWED_SYMBOLS.includes(s)) {
             return next();
         }
     }
-    
-    let tokenObj = null;
-    
-    try {
 
+    let tokenObj = null;
+
+    try {
         const sql = `
-        SELECT user_id, token, email, registered_at, created_at
-        FROM tokens
-        INNER JOIN users
-        ON users.id = tokens.user_id
-        WHERE token = ?;`;
-        
+            SELECT user_id, token, email, registered_at, created_at
+            FROM tokens
+            INNER JOIN users
+                ON users.id = tokens.user_id
+            WHERE token = ?;`;
         const selectResult = await connection.execute(sql, [loginToken]);
 
         if (selectResult[0].length === 0) {
@@ -63,22 +61,21 @@ export async function getUserData(req, res, next) {
                 .status(200)
                 .set('Set-Cookie', cookie.join('; '))
                 .json({
-                    status: 'error',
+                    status: API_RESPONSE_STATUS.ERROR,
                     msg: 'LOL',
                     isLoggedIn: false,
-                    role: 'public',
+                    role: ROLE.PUBLIC,
                 });
         }
     } catch (error) {
         return res.status(500).json({
-            status: 'error',
+            status: API_RESPONSE_STATUS.ERROR,
             msg: `Serverio klaida. Nepavyko atpazinti vartotojo sesijos`,
             isLoggedIn: false,
-            role: 'public',
+            role: ROLE.PUBLIC,
         });
     }
 
-    
     req.user = {
         isLoggedIn: true,
         role: 'user',
@@ -86,6 +83,5 @@ export async function getUserData(req, res, next) {
         email: tokenObj.email,
         registeredAt: tokenObj.registered_at,
     };
-    
     next();
 }
