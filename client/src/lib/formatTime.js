@@ -30,3 +30,8 @@ export function formatTime(postTime) {
         return 'Prieš ' + daysDif + ' dienas';
     }
 }
+
+/*
+1, 21, 31, 41, 51 -> minute
+11 -> minutes
+*/
